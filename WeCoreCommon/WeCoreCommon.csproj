@@ -1,11 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Description>A Set Of core utlities( caching, loggin, validating)</Description>
+    <Copyright>MIT</Copyright>
+    <RepositoryUrl>https://github.com/jcambert/WeCoreCommon.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>D:\source\nuget_repo\wecorecommon</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.3.6" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.1" />
@@ -14,6 +21,11 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
     <PackageReference Include="Scrutor" Version="3.3.0" />
+    <PackageReference Include="System.Reactive.Core" Version="5.0.0" />
   </ItemGroup>
 
+
+    <Target Name="nuget" AfterTargets="PostBuildEvent">
+      <Exec Condition="!Exists('d:\source\nuget_repo\$(MSBuildProjectName)\$(VersionPrefix)\.nupkg.metadata')" Command="nuget add $(TargetDir)..\$(MSBuildProjectName).$(VersionPrefix).nupkg -source d:\source\nuget_repo" StandardOutputImportance="high" StandardErrorImportance="high" />
+    </Target>
 </Project>

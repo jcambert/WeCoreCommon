@@ -16,6 +16,7 @@ public static class ServicesExtensions
         }
         services.Configure<CacheOptions>(config.GetSection(CacheOptions.CacheSectionName));
 
+       
         CacheOptions opt = new CacheOptions();
         configure?.Invoke(opt);
         config.Bind(CacheOptions.CacheSectionName, opt);

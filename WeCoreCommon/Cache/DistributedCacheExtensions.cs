@@ -15,7 +15,7 @@ public static class DistributedCacheExtension
         await cache.SetStringAsync(recodeId, jsonData, options);
     }
 
-    public static T? GetRecord<T>(this IDistributedCache cache, string recordId)
+    public static T GetRecord<T>(this IDistributedCache cache, string recordId)
     {
         var jsonData = cache.GetString(recordId);
         if (jsonData is null)
@@ -25,7 +25,7 @@ public static class DistributedCacheExtension
         return JsonSerializer.Deserialize<T>(jsonData);
     }
 
-    public static async Task<T?> GetRecordAsync<T>(this IDistributedCache cache, string recordId, CancellationToken token = default)
+    public static async Task<T> GetRecordAsync<T>(this IDistributedCache cache, string recordId, CancellationToken token = default)
     {
         var jsonData = await cache.GetStringAsync(recordId, token);
         if (jsonData is null)

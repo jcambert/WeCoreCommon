@@ -21,19 +21,19 @@ public class CachingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest,
     {
         var requestName = request.GetType();
         Logger.LogInformation($"{requestName} is configured for caching." );
-
+        string cacheKey = $"{requestName}-{request.CacheKey}";
         // Check to see if the item is inside the cache
         TResponse response;
-        if (Cache.TryGetValue(request.CacheKey, out response))
+        if (Cache.TryGetValue(cacheKey, out response))
         {
-            Logger.LogInformation($"Returning cached value for {requestName}." );
+            Logger.LogInformation($"Returning cached value for {cacheKey}." );
             return response;
         }
 
         // Item is not in the cache, execute request and add to cache
-        Logger.LogInformation($"{requestName} Cache Key: {request.CacheKey} is not inside the cache, executing request." );
+        Logger.LogInformation($"{cacheKey} is not inside the cache, executing request." );
         response = await next();
-        await Cache.SetRecordAsync(request.CacheKey, response);
+        await Cache.SetRecordAsync(cacheKey, response);
         return response;
     }
 }

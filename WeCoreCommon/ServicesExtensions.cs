@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using System.Reflection;
+using WeCoreCommon.Observables;
 
 namespace WeCoreCommon;
 
@@ -14,6 +15,8 @@ public static class ServicesExtensions
             assemblies.CopyTo(z, 1);
             z[0] = typeof(ServicesExtensions).Assembly;
             services.AddMediatR(z);
+            
+            services.AddScoped(typeof(IObservableMediator),typeof( ObservableMediator));
         }
         return services;
     }
